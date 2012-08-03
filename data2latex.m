@@ -5,9 +5,7 @@
 %% Obtain a latex table from a plain text data file compatible with octave/gnuplot.
 %%
 %%-------------------------------------------------------------------------------------------------
-%%
 %% Author: David Estévez Fernández, GPL license Aug 2012
-%%
 %% ================================================================================================
 
 function data2latex( file )
