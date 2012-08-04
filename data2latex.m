@@ -30,30 +30,36 @@ dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each
 choice = menu( "Customize output\n------------------" , 'Enable scientific notation', 'Number output style', 'Continue');
 
 if choice == 3
+	% Clear previous messages:
+	clc;
+	
+	% Instructions + header of the table:
 	fprintf("Copy and paste this into your LaTeX file:\n\n");
-	fprintf("\\begin{ center }\n");
+	fprintf("\\begin{center}\n");
 	fprintf("\t\\begin{tabular}{|");
 	
 	for i=[1:dim_table(2)]
-		fprintf("c|");
+		fprintf("c|");		% Defining centered columns
 	endfor
 
 	fprintf("} \\hline\n");
 
-	for i=[1:dim_table(1)]
+	% Print the data:
+	for i=[1:dim_table(1)]		% Loop for rows
 		fprintf("\t\t");
 
-		for j=[1:dim_table(2)-1]
-			%clear(string);
+		for j=[1:dim_table(2)-1]	%Loop for columns
+			% Standard style, dec_places store the number of decimal places
 			string = ["%." num2str(dec_places(j)) "f & "];
-			%fprintf("%f & ", table(i,j) );
 			fprintf(string, table(i,j) );
 		endfor
 		
+		%Last element has different style
 		string = ["%." num2str(dec_places(dim_table(2))) "f \\\\\\\\ \\\\hline \\n"];
 		fprintf( string , table(i, dim_table(2)) );
 	endfor
 
+	% Footer
 	fprintf("\t\\end{tabular}\n");
 	fprintf("\\end{center}\n\n");
 endif
