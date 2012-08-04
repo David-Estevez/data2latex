@@ -27,41 +27,56 @@ dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each
 
 % Menu 
 %=====================================================
-choice = menu( "Customize output\n------------------" , 'Enable scientific notation', 'Number output style', 'Continue');
+% Stay until end of program
+flag = true;
 
-if choice == 3
-	% Clear previous messages:
-	clc;
+while (flag)
+	% Menu itself
+	choice = menu( "Customize output\n------------------" , 'Enable scientific notation', 'Number output style', 'Continue');
+
+	if choice == 2
+		% Ask for input
+		newValue = input("Insert number of decimal places: ");
+		dec_places = newValue * ones(1, dim_table(2) );
+
+		%Return to the menu
+	endif
+
+	if choice == 3
+		% Clear previous messages:
+		clc;
+		
+		% Instructions + header of the table:
+		fprintf("Copy and paste this into your LaTeX file:\n\n");
+		fprintf("\\begin{center}\n");
+		fprintf("\t\\begin{tabular}{|");
 	
-	% Instructions + header of the table:
-	fprintf("Copy and paste this into your LaTeX file:\n\n");
-	fprintf("\\begin{center}\n");
-	fprintf("\t\\begin{tabular}{|");
-	
-	for i=[1:dim_table(2)]
-		fprintf("c|");		% Defining centered columns
-	endfor
+		for i=[1:dim_table(2)]
+			fprintf("c|");		% Defining centered columns
+		endfor
 
-	fprintf("} \\hline\n");
+		fprintf("} \\hline\n");
 
-	% Print the data:
-	for i=[1:dim_table(1)]		% Loop for rows
-		fprintf("\t\t");
+		% Print the data:
+		for i=[1:dim_table(1)]		% Loop for rows
+			fprintf("\t\t");
 
-		for j=[1:dim_table(2)-1]	%Loop for columns
+			for j=[1:dim_table(2)-1]	%Loop for columns
 			% Standard style, dec_places store the number of decimal places
 			string = ["%." num2str(dec_places(j)) "f & "];
 			fprintf(string, table(i,j) );
-		endfor
-		
+			endfor
+			
 		%Last element has different style
 		string = ["%." num2str(dec_places(dim_table(2))) "f \\\\\\\\ \\\\hline \\n"];
 		fprintf( string , table(i, dim_table(2)) );
-	endfor
+		endfor
 
-	% Footer
-	fprintf("\t\\end{tabular}\n");
-	fprintf("\\end{center}\n\n");
-endif
-
+		% Footer
+		fprintf("\t\\end{tabular}\n");
+		fprintf("\\end{center}\n\n");
+	
+		flag = false;
+	endif
+endwhile
 endfunction
