@@ -31,15 +31,28 @@ dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each
 flag = true;
 
 while (flag)
+	% Clear previous messages:
+	clc;
+		
 	% Menu itself
-	choice = menu( "Customize output\n------------------" , 'Enable scientific notation', 'Number output style', 'Continue');
+	choice = menu( "Customize output\n------------------" , 'Enable/disable scientific notation', 'Number output style', 'Continue');
+
+	if choice == 1
+		if sci_not
+			sci_not = false;
+		else
+			sci_not = true;
+		endif
+
+		% Return to the menu
+	endif
 
 	if choice == 2
 		% Ask for input
 		newValue = input("Insert number of decimal places: ");
 		dec_places = newValue * ones(1, dim_table(2) );
 
-		%Return to the menu
+		% Return to the menu
 	endif
 
 	if choice == 3
