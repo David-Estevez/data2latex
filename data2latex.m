@@ -21,9 +21,13 @@ table = load( file );			% Load data into table variable.
 dim_table = size(table);		% Find the dimensions of table and store them.
 fprintf("[OK]\n");
 
+% Create system variables
+% =====================================================
 fprintf("Creating system variables...");
-sci_not = false;			% Scientific notation disabled
+
+names_set = false;			% True if column names have been defined
 dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each column of data
+sci_not = false;			% Scientific notation disabled
 
 % Menu 
 %=====================================================
@@ -33,33 +37,29 @@ flag = true;
 while (flag)
 	% Clear previous messages:
 	clc;
+
 		
 	% Menu itself
-	choice = menu( "Customize output\n------------------" , 'Enable/disable scientific notation', 'Number output style', 'Continue');
+	% #############################################################################################
 
-	if choice == 1
-		if sci_not
-			sci_not = false;
-		else
-			sci_not = true;
-		endif
+	choice = menu( "Customize output\n------------------" , 'Continue', 'Set name of each column', 'Number output style', 'Enable/disable scientific notation' );
 
-		% Return to the menu
-	endif
 
-	if choice == 2
-		% Ask for input
-		newValue = input("Insert number of decimal places: ");
-		dec_places = newValue * ones(1, dim_table(2) );
 
-		% Return to the menu
-	endif
+	% Option #1
+	% ##############################################################################################
+	% Continue and print the resultant code in the screen.
+	% Is always the first choice because it has to be always present, and this way more features can 
+	% be added easily.
+	
+	if choice == 1	% Print LaTeX code
 
-	if choice == 3
 		% Clear previous messages:
 		clc;
 		
+
 		% Instructions + header of the table:
+		% ------------------------------------------------------
 		fprintf("Copy and paste this into your LaTeX file:\n\n");
 		fprintf("\\begin{center}\n");
 		fprintf("\t\\begin{tabular}{|");
@@ -70,26 +70,90 @@ while (flag)
 
 		fprintf("} \\hline\n");
 
-		% Print the data:
-		for i=[1:dim_table(1)]		% Loop for rows
-			fprintf("\t\t");
 
-			for j=[1:dim_table(2)-1]	%Loop for columns
-			% Standard style, dec_places store the number of decimal places
-			string = ["%." num2str(dec_places(j)) "f & "];
-			fprintf(string, table(i,j) );
-			endfor
+		% If the names of the columns have been set, print them:
+		% -------------------------------------------------------
+
+		if names_set 
 			
-		%Last element has different style
-		string = ["%." num2str(dec_places(dim_table(2))) "f \\\\\\\\ \\\\hline \\n"];
-		fprintf( string , table(i, dim_table(2)) );
-		endfor
+			% ### Print column names ### % 
+		endif
+
+
+		% Print the data (numbers):
+		% -------------------------------------------------------
+		if sci_not
+			% Print the numbers with scientific notation
+			input("Sorry, not implemented yet\n");			
+
+		else
+			% Print the numbers without scientific notation
+
+			% Loop for rows
+			for i=[1:dim_table(1)]		
+				fprintf("\t\t");
+	
+				% Loop for columns
+				for j=[1:dim_table(2)-1]	
+					% Standard style, dec_places store the number of decimal places
+					string = ["%." num2str(dec_places(j)) "f & "];
+					fprintf(string, table(i,j) );
+				endfor
+			
+				% Last element has different style
+				string = ["%." num2str(dec_places(dim_table(2))) "f \\\\\\\\ \\\\hline \\n"];
+				fprintf( string , table(i, dim_table(2)) );
+			endfor
+
+		endif
 
 		% Footer
+		% ----------------------------------------------------------
 		fprintf("\t\\end{tabular}\n");
 		fprintf("\\end{center}\n\n");
 	
+		% Exit the main loop
+		% ----------------------------------------------------------
 		flag = false;
 	endif
+
+
+
+	% Option #2
+	% ######################################################################################
+
+	if choice == 2		% Input the name of the columns
+
+			% Code goes here
+	endif
+
+
+
+	% Option #3
+	% ######################################################################################
+
+	if choice == 3		% Set the number of decimal places
+		% Ask for input
+		newValue = input("Insert number of decimal places: ");
+		dec_places = newValue * ones(1, dim_table(2) );
+
+		% Return to the menu
+	endif
+
+
+
+	% Option #4
+	% ######################################################################################
+
+	if choice == 4		% Enable/disable scientific notation
+		if sci_not
+			sci_not = false;
+		else
+			sci_not = true;
+		endif
+
+		% Return to the menu
+	endif
+
 endwhile
 endfunction
