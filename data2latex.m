@@ -26,10 +26,11 @@ fprintf("[OK]\n");
 fprintf("Creating system variables...");
 
 names_set = false;			% True if column names have been defined
-dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each column of data
-sci_not = false;			% Scientific notation disabled
-
 table_headers = "\0";			% Initialize the list of names of the columns of the table
+
+dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each column of data
+sci_not = zeros(1, dim_table(2));	% Scientific notation disabled for all columns (0 == false)
+
 
 
 % Menu 
@@ -157,11 +158,11 @@ while (flag)
 	% Option #3
 	% ######################################################################################
 
-	if choice == 3		% Set the number of decimal places
-		% Ask for input
-		newValue = input("Insert number of decimal places: ");
-		dec_places = newValue * ones(1, dim_table(2) );
+	if choice == 3		
 
+		% Set the number of decimal places
+		dec_places = num_dec_places( dec_places );
+		
 		% Return to the menu
 	endif
 
@@ -170,12 +171,10 @@ while (flag)
 	% Option #4
 	% ######################################################################################
 
-	if choice == 4		% Enable/disable scientific notation
-		if sci_not
-			sci_not = false;
-		else
-			sci_not = true;
-		endif
+	if choice == 4		
+		
+		% Enable/disable scientific notation
+		sci_not = toggle_sci_not( sci_not);
 
 		% Return to the menu
 	endif
