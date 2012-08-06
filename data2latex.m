@@ -29,6 +29,9 @@ names_set = false;			% True if column names have been defined
 dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each column of data
 sci_not = false;			% Scientific notation disabled
 
+table_headers = "\0";			% Initialize the list of names of the columns of the table
+
+
 % Menu 
 %=====================================================
 % Stay until end of program
@@ -124,7 +127,20 @@ while (flag)
 
 	if choice == 2		% Input the name of the columns
 
-			% Code goes here
+			% Set flag to true
+			names_set = true;
+			
+			% Ask user for names:
+			fprintf( "Set the names that will be on top of the columns of the table.\n");
+	
+			for i = [1:dim_table(2)]
+				fprintf("Insert text for column number %i/%i", i, dim_table(2) );
+				string = input( ">", "s");
+				
+				table_headers = [table_headers; string];
+			endfor
+
+			
 	endif
 
 
