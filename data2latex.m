@@ -79,7 +79,14 @@ while (flag)
 
 		if names_set 
 			
-			% ### Print column names ### % 
+			% ### Print column names ### %  (need to be commented out)
+			fprintf("\t\t");
+			
+			for i=[2:size(table_headers,1)-1]
+				fprintf("%s & ", strtrim(table_headers(i, :) ));
+			endfor
+			
+			fprintf("%s \\\\ \\hline \\hline\n", strtrim(table_headers( size(table_headers,1), :) ));
 		endif
 
 
@@ -127,15 +134,17 @@ while (flag)
 
 	if choice == 2		% Input the name of the columns
 
-			% Set flag to true
-			names_set = true;
-			
+			% Set variables
+			names_set = true;		% Set flag to true
+			table_headers = "\0";		% Reset the matrix for re-editing
+
 			% Ask user for names:
 			fprintf( "Set the names that will be on top of the columns of the table.\n");
 	
 			for i = [1:dim_table(2)]
 				fprintf("Insert text for column number %i/%i", i, dim_table(2) );
 				string = input( ">", "s");
+				
 				
 				table_headers = [table_headers; string];
 			endfor
