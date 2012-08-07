@@ -90,33 +90,43 @@ while (flag)
 			fprintf("%s \\\\ \\hline \\hline\n", strtrim(table_headers( size(table_headers,1), :) ));
 		endif
 
-
+		
 		% Print the data (numbers):
 		% -------------------------------------------------------
-		if sci_not
-			% Print the numbers with scientific notation
-			input("Sorry, not implemented yet\n");			
-
-		else
-			% Print the numbers without scientific notation
-
-			% Loop for rows
-			for i=[1:dim_table(1)]		
-				fprintf("\t\t");
+		% Loop for rows
+		for i=[1:dim_table(1)]	
 	
-				% Loop for columns
-				for j=[1:dim_table(2)-1]	
-					% Standard style, dec_places store the number of decimal places
-					string = ["%." num2str(dec_places(j)) "f & "];
-					fprintf(string, table(i,j) );
-				endfor
-			
-				% Last element has different style
-				string = ["%." num2str(dec_places(dim_table(2))) "f \\\\\\\\ \\\\hline \\n"];
-				fprintf( string , table(i, dim_table(2)) );
-			endfor
+			fprintf("\t\t");
+	
+			% Loop for columns
+			for j=[1:dim_table(2)]
 
-		endif
+				% Print the number:
+				%-------------------
+				if sci_not(j)
+					% Print the numbers with scientific notation
+					string = sci_not_string(dec_places(j), table(i,j) );
+					fprintf( "%s", string);		
+
+				else
+					% Print the numbers without scientific notation	
+					string = ["%." num2str(dec_places(j)) "f"];
+					fprintf(string, table(i,j) );
+				endif
+
+				% Print separation character / endline string:
+				% --------------------------------------------				
+				if j < dim_table(2)
+					% Print separation character (&)
+					fprintf(" & ");
+				else
+					% Print endline string:
+					fprintf(" \\\\ \\hline \n");
+				endif
+
+			endfor
+		endfor
+
 
 		% Footer
 		% ----------------------------------------------------------
@@ -175,7 +185,7 @@ while (flag)
 		
 		% Enable/disable scientific notation
 		sci_not = toggle_sci_not( sci_not);
-
+	
 		% Return to the menu
 	endif
 

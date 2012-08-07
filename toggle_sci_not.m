@@ -8,9 +8,9 @@ function new_sci_not = toggle_sci_not( sci_not)
 
 	%Toggle scientific notation:
 	if sci_not
-		new_sci_not = false;
+		new_sci_not = zeros(1, length(sci_not));
 	else
-		new_sci_not = true;
+		new_sci_not = ones(1, length(sci_not));
 	endif
 
 endfunction
