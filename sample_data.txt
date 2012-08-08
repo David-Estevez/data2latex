@@ -1,0 +1,7 @@
+#This is a sample data file to test the software
+1.0463	23	1e2
+1.6834	34	1.22e-1
+1.7093	56	2.3e1
+1.5201	72	1.5e3
+2.0012	01	3.12e-2
+1.7098	00	60.2e3
