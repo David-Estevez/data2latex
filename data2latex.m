@@ -31,6 +31,7 @@ table_headers = "\0";			% Initialize the list of names of the columns of the tab
 dec_places = 2 * ones(1, dim_table(2));	% Decimal places for the output for each column of data
 sci_not = zeros(1, dim_table(2));	% Scientific notation disabled for all columns (0 == false)
 
+fprintf("[OK]\n");
 
 
 % Menu 
@@ -46,7 +47,7 @@ while (flag)
 	% Menu itself
 	% #############################################################################################
 
-	choice = menu( "Customize output\n------------------" , 'Continue', 'Set name of each column', 'Number output style', 'Enable/disable scientific notation' );
+	choice = menu( "\nCustomize output\n------------------" , 'Continue', 'Set name of each column', 'Number of decimal places', 'Enable/disable scientific notation' );
 
 
 
