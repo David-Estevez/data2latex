@@ -62,33 +62,46 @@ while (flag)
 		% Clear previous messages:
 		clc;
 		
+		% Open file for output:
+		output_file = fopen( "./latex.txt", "w");
 
 		% Instructions + header of the table:
 		% ------------------------------------------------------
-		fprintf("Copy and paste this into your LaTeX file:\n\n");
+		fprintf("Copy and paste the code after the break into your LaTeX file.\nA file with this code will be also created at the current folder.\n\n\n");
+
 		fprintf("\\begin{center}\n");
 		fprintf("\t\\begin{tabular}{|");
+
+		% Now to the output file:
+		fprintf(output_file, "\\begin{center}\n");
+		fprintf(output_file, "\t\\begin{tabular}{|");
 	
 		for i=[1:dim_table(2)]
-			fprintf("c|");		% Defining centered columns
+			fprintf(output_file, "c|");		% Defining centered columns
+			fprintf(output_file, "c|");		% Output file
 		endfor
 
 		fprintf("} \\hline\n");
-
+		fprintf(output_file, "} \\hline\n");
 
 		% If the names of the columns have been set, print them:
 		% -------------------------------------------------------
 
 		if names_set 
 			
-			% ### Print column names ### %  (need to be commented out)
+			% Initial indentation:
 			fprintf("\t\t");
+			fprintf(output_file, "\t\t");
 			
+			% Print names
 			for i=[2:size(table_headers,1)-1]
 				fprintf("%s & ", strtrim(table_headers(i, :) ));
+				fprintf(output_file, "%s & ", strtrim(table_headers(i, :) ));
 			endfor
 			
+			% End of line:
 			fprintf("%s \\\\ \\hline \\hline\n", strtrim(table_headers( size(table_headers,1), :) ));
+			fprintf(output_file, "%s \\\\ \\hline \\hline\n", strtrim(table_headers( size(table_headers,1), :) ));
 		endif
 
 		
@@ -98,7 +111,8 @@ while (flag)
 		for i=[1:dim_table(1)]	
 	
 			fprintf("\t\t");
-	
+			fprintf(output_file, "\t\t");
+
 			% Loop for columns
 			for j=[1:dim_table(2)]
 
@@ -107,12 +121,14 @@ while (flag)
 				if sci_not(j)
 					% Print the numbers with scientific notation
 					string = sci_not_string(dec_places(j), table(i,j) );
-					fprintf( "%s", string);		
+					fprintf( "%s", string);	
+					fprintf(output_file, "%s", string);		
 
 				else
 					% Print the numbers without scientific notation	
 					string = ["%." num2str(dec_places(j)) "f"];
 					fprintf(string, table(i,j) );
+					fprintf(output_file, string, table(i,j) );
 				endif
 
 				% Print separation character / endline string:
@@ -120,9 +136,11 @@ while (flag)
 				if j < dim_table(2)
 					% Print separation character (&)
 					fprintf(" & ");
+					fprintf(output_file, " & ");
 				else
 					% Print endline string:
 					fprintf(" \\\\ \\hline \n");
+					fprintf(output_file, " \\\\ \\hline \n");
 				endif
 
 			endfor
@@ -134,9 +152,16 @@ while (flag)
 		fprintf("\t\\end{tabular}\n");
 		fprintf("\\end{center}\n\n");
 	
+		% Now on the output file:
+		fprintf(output_file, "\t\\end{tabular}\n");
+		fprintf(output_file, "\\end{center}\n\n");
+	
 		% Exit the main loop
 		% ----------------------------------------------------------
 		flag = false;
+
+		% Close file
+		fclose(output_file);
 	endif
 
 
@@ -154,7 +179,7 @@ while (flag)
 			fprintf( "Set the names that will be on top of the columns of the table.\n");
 	
 			for i = [1:dim_table(2)]
-				fprintf("Insert text for column number %i/%i", i, dim_table(2) );
+				fprintf("Insert text for column number %i of %i", i, dim_table(2) );
 				string = input( ">", "s");
 				
 				
