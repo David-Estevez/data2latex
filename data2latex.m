@@ -8,7 +8,14 @@
 %% Author: David Estévez Fernández, GPL license Aug 2012
 %% ================================================================================================
 
+
+
+
 function data2latex( file )
+
+% Include function files:
+source("data2latex_choices.m");
+source("data2latex_lib.m");
 
 % Clear system:
 close all; clc;
